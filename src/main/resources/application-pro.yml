@@ -1,0 +1,10 @@
+server:
+  port : 8110
+  servlet:
+    context-path: /products
+    spring:
+      jpa:
+        show-sql: fasle
+        properties:
+          hibernate:
+            format-sql: false

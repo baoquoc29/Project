@@ -1,0 +1,16 @@
+server:
+  port: 8111
+  servlet:
+    context-path: /dev
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:2903/Test
+    username: postgres
+    password: baoquoc2903
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        ddl-auto: update
