@@ -5,7 +5,7 @@ server:
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://rain.db.elephantsql.com:2903/pqzsdzew
+    url: jdbc:postgresql://rain.db.elephantsql.com:5432/pqzsdzew
     username: pqzsdzew
     password: z76JuboD7Wwg07yf5efppnsv12emJTo1
   jpa:
