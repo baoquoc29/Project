@@ -1,11 +1,12 @@
 package com.example.demo.Repository;
 
-import com.example.demo.Model.Customer;
+import com.example.demo.DTO.CustomerDTO;
+import com.example.demo.Entity.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-public interface CustomerRepository extends JpaRepository<Customer,Integer> {
-    Optional<Customer> findByUsername(String username);
+@Repository
+public interface CustomerRepository extends JpaRepository<Customer, Long> {
+    Customer findByIduser(Long idUser);
+
 }

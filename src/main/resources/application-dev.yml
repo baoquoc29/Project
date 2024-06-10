@@ -1,16 +1,19 @@
 server:
-  port: 8111
+  port: 9111
   servlet:
     context-path: /dev
+
 spring:
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://rain.db.elephantsql.com:5432/pqzsdzew
-    username: pqzsdzew
-    password: z76JuboD7Wwg07yf5efppnsv12emJTo1
   jpa:
     show-sql: true
     properties:
       hibernate:
         format_sql: true
         ddl-auto: update
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:2903/EnglishApp
+    username: postgres
+    password: baoquoc2903
+
+
