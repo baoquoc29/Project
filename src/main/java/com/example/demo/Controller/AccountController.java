@@ -13,6 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -41,10 +44,33 @@ public class AccountController {
     @PostMapping("/login")
     public ResponseEntity<ResponObject> login(@RequestBody AccountDTO accountDTO) {
         UserResponDTO responDTO = accountService.login(accountDTO);
-        if (responDTO != null  && !responDTO.getAccuracy().isEmpty()) {
+        if (responDTO != null   && responDTO.getAccuracy() != null ) {
             return ResponseEntity.ok(new ResponObject("Success", "Login Success", responDTO));
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponObject("UnSuccess", "Fail Login", "Password is not correct or Email is not verified"));
+    }
+    @PostMapping("/forgot")
+    public ResponseEntity<?> forgot(@RequestBody SendForgotPassDTO passDTO) {
+        try {
+            String recipientEmail = passDTO.getEmail();
+
+            if (!isValidEmail(recipientEmail)) {
+                return ResponseEntity.badRequest().body("Invalid email format" + recipientEmail);
+            }
+
+            // Use default values for subject and content
+            String subject = "Thông báo";
+            String content = "Mật khẩu của bạn là";
+
+            Email emailValue = new Email(recipientEmail, content, subject);
+
+
+            emailService.sendForgotEmail(emailValue);
+
+            return ResponseEntity.ok("Email sent");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error sending email");
+        }
     }
 
     @GetMapping("/get_user/role/{role}")
@@ -90,5 +116,10 @@ public class AccountController {
         return ResponseEntity.ok(new ResponObject("Success", "Cập nhật thành công", updatedCustomerDTO));
     }
 
-
+    private boolean isValidEmail(String email) {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        Pattern pattern = Pattern.compile(emailRegex);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
 }

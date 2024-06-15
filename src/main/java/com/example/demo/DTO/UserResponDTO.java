@@ -1,7 +1,9 @@
 package com.example.demo.DTO;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 @Data
 public class UserResponDTO {
     private Long id;
@@ -13,7 +15,7 @@ public class UserResponDTO {
     private String name;
     private Long age;
     private String numberphone;
-    private UserResponDTO(Long id,Long idcustomer,String username,String membership,String email,String accuracy,String name,Long age,String numberphone){
+    public UserResponDTO(Long id,Long idcustomer,String username,String membership,String email,String accuracy,String name,Long age,String numberphone){
         this.id = id;
         this.idcustomer = idcustomer;
         this.username = username;
