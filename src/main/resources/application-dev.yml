@@ -12,6 +12,6 @@ spring:
         ddl-auto: update
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://host.docker.internal:2903/EnglishApp
+    url: jdbc:postgresql://postgres:5432/EnglishApp
     username: postgres
     password: baoquoc2903

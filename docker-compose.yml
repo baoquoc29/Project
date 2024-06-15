@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "9111:9111"
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/EnglishApp
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: baoquoc2903
+
+  postgres:
+    image: postgres:13
+    ports:
+      - "2903:5432"
+    environment:
+      POSTGRES_DB: EnglishApp
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: baoquoc2903
