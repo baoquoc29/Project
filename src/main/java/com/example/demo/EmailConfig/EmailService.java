@@ -24,6 +24,7 @@ public class EmailService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+    private RandomCodeGenerator codeGenerator = new RandomCodeGenerator();
 
     public void sendEmail(Email email) {
         try {
@@ -105,7 +106,7 @@ public class EmailService {
                 "        <h2>Đặt lại mật khẩu của bạn</h2>" +
                 "        <p>Xin chào " + userDTO.getName() + ",</p>" +
                 "        <p>Chúng tôi đã nhận được yêu cầu đặt lại mật khẩu cho tài khoản của bạn. Nếu bạn không yêu cầu đặt lại mật khẩu, xin hãy bỏ qua email này.</p>" +
-                "        <p>Mật khẩu của bạn: " + encodedPassword + "</p>" +
+                "        <p>Mã đặt lại mật khẩu của bạn: " + codeGenerator.toString() + "</p>" +
                 "    </div>" +
                 "    <div class=\"footer\">" +
                 "        <p>&copy; 2024 EnglishCompany. All rights reserved.</p>" +
@@ -120,84 +121,78 @@ public class EmailService {
         LocalDateTime localDateTime = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         String formattedDateTime = localDateTime.format(formatter);
-        String confirmationUrl = "http://localhost:9111/dev/api/v1/auth/comfirm/email/" + email.getEmail(); // Replace with your confirmation URL
 
-        return "<!DOCTYPE html>" +
-                "<html>" +
-                "<head>" +
-                "    <style>" +
-                "        .email-container {" +
-                "            font-family: Arial, sans-serif;" +
-                "            border: 1px solid #dddddd;" +
-                "            padding: 20px;" +
-                "            max-width: 600px;" +
-                "            margin: auto;" +
-                "            background-color: #f9f9f9;" +
-                "        }" +
-                "        .header {" +
-                "            background-color: #87CEEB;" +
-                "            color: white;" +
-                "            padding: 10px;" +
-                "            text-align: center;" +
-                "        }" +
-                "        .content {" +
-                "            margin: 20px 0;" +
-                "        }" +
-                "        .content h2 {" +
-                "            color: #333;" +
-                "        }" +
-                "        .content p {" +
-                "            color: #666;" +
-                "        }" +
-                "        .footer {" +
-                "            text-align: center;" +
-                "            font-size: 12px;" +
-                "            color: #999;" +
-                "            padding-top: 10px;" +
-                "            border-top: 1px solid #dddddd;" +
-                "        }" +
-                "        .button-container {" +
-                "            text-align: center;" +
-                "            margin-top: 20px;" +
-                "        }" +
-                "        .button {" +
-                "            background-color: #87CEEB;" +
-                "            color: white;" +
-                "            padding: 10px 20px;" +
-                "            text-align: center;" +
-                "            text-decoration: none;" +
-                "            display: inline-block;" +
-                "            font-size: 16px;" +
-                "            margin: 4px 2px;" +
-                "            cursor: pointer;" +
-                "            border: none;" +
-                "            border-radius: 4px;" +
-                "        }" +
-                "    </style>" +
-                "</head>" +
-                "<body>" +
-                "<div class=\"email-container\">" +
-                "    <div class=\"header\">" +
-                "        <h1>Thông tin tài khoản của bạn</h1>" +
-                "    </div>" +
-                "    <div class=\"content\">" +
-                "        <h2>Thông tin chi tiết</h2>" +
-                "        <p><strong>Mã tài khoản:</strong> " + userDTO.getIduser() + "</p>" +
-                "        <p><strong>Mã thành viên:</strong> " + userDTO.getIdcustomer() + "</p>" +
-                "        <p><strong>Tên tài khoản:</strong> " + userDTO.getUsername() + "</p>" +
-                "        <p><strong>Email:</strong> " + email.getEmail().trim() + "</p>" +
-                "        <p><strong>Họ và tên:</strong> " + userDTO.getName() + "</p>" +
-                "        <p><strong>Tuổi:</strong> " + userDTO.getAge() + "</p>" +
-                "        <p><strong>Ngày đăng kí:</strong> " + formattedDateTime + "</p>" +
-                "        <div class=\"button-container\">" +
-                "            <a href=\"" + confirmationUrl + "\" class=\"button\">Xác nhận tài khoản của bạn</a>" +
-                "        </div>" +
-                "    </div>" +
-                "    <div class=\"footer\">" +
-                "        <p>&copy; 2024 EnglishCompany. All rights reserved.</p>" +
-                "    </div>" +
-                "</div>" +
-                "</body>" +
-                "</html>";
+        String confirmationCode = codeGenerator.generateRegistrationCode(); // Giả sử đây là mã xác nhận
+
+        return String.format(
+                "<!DOCTYPE html>" +
+                        "<html>" +
+                        "<head>" +
+                        "    <style>" +
+                        "        .email-container {" +
+                        "            font-family: Arial, sans-serif;" +
+                        "            border: 1px solid #dddddd;" +
+                        "            padding: 20px;" +
+                        "            max-width: 600px;" +
+                        "            margin: auto;" +
+                        "            background-color: #f9f9f9;" +
+                        "        }" +
+                        "        .header {" +
+                        "            background-color: #87CEEB;" +
+                        "            color: white;" +
+                        "            padding: 10px;" +
+                        "            text-align: center;" +
+                        "        }" +
+                        "        .content {" +
+                        "            margin: 20px 0;" +
+                        "        }" +
+                        "        .content h2 {" +
+                        "            color: #333;" +
+                        "            font-size: 20px;" + // Tăng kích thước font chữ cho tiêu đề
+                        "        }" +
+                        "        .content p {" +
+                        "            color: #666;" +
+                        "            font-size: 16px;" + // Tăng kích thước font chữ cho đoạn văn
+                        "        }" +
+                        "        .footer {" +
+                        "            text-align: center;" +
+                        "            font-size: 12px;" +
+                        "            color: #999;" +
+                        "            padding-top: 10px;" +
+                        "            border-top: 1px solid #dddddd;" +
+                        "        }" +
+                        "    </style>" +
+                        "</head>" +
+                        "<body>" +
+                        "<div class=\"email-container\">" +
+                        "    <div class=\"header\">" +
+                        "        <h1>Thông tin tài khoản của bạn</h1>" +
+                        "    </div>" +
+                        "    <div class=\"content\">" +
+                        "        <h2>Thông tin chi tiết</h2>" +
+                        "        <p><strong>Mã tài khoản:</strong> %s</p>" +
+                        "        <p><strong>Mã thành viên:</strong> %s</p>" +
+                        "        <p><strong>Tên tài khoản:</strong> %s</p>" +
+                        "        <p><strong>Email:</strong> %s</p>" +
+                        "        <p><strong>Họ và tên:</strong> %s</p>" +
+                        "        <p><strong>Tuổi:</strong> %s</p>" +
+                        "        <p><strong>Ngày đăng kí:</strong> %s</p>" +
+                        "        <p><strong>Mã xác nhận tài khoản:</strong> <strong style=\"color: #FF4500;\">%s</strong></p>" + // Hiển thị mã xác nhận
+                        "    </div>" +
+                        "    <div class=\"footer\">" +
+                        "        <p>&copy; 2024 WorkLishCompany. All rights reserved.</p>" +
+                        "    </div>" +
+                        "</div>" +
+                        "</body>" +
+                        "</html>",
+                userDTO.getIduser(),
+                userDTO.getIdcustomer(),
+                userDTO.getUsername(),
+                email.getEmail().trim(),
+                userDTO.getName(),
+                userDTO.getAge(),
+                formattedDateTime,
+                confirmationCode // Chèn mã xác nhận vào đây
+        );
     }
 }

@@ -6,9 +6,9 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name = "reading_content")
+@Table(name = "reading_questions")
 @Data
-public class ReadingContent {
+public class ReadingQuestions {
     @Id
     @Column(name = "id_reading")
     private Long idReading;

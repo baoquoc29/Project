@@ -4,9 +4,9 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
-@Table(name = "customer")
+@Table(name = "customers")
 @Data
-public class Customer {
+public class Customers {
     @Id
     @Column(name = "idcustomer")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,5 +25,5 @@ public class Customer {
     private String numberphone;
     @OneToOne
     @JoinColumn(name = "iduser",updatable = false,insertable = false)
-    private Account account;
+    private UserAccounts userAccounts;
 }

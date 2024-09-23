@@ -34,7 +34,7 @@ public class ListeningAnswers {
     private String question;
     @ManyToOne
     @JoinColumn(name = "id_content", insertable = false, updatable = false)
-    private ListeningContent listeningContent;
+    private ListeningQuestions listeningQuestions;
     @ManyToOne
     @JoinColumn(name = "id_quiz",insertable = false,updatable = false)
     private Quiz quiz;

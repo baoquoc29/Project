@@ -6,9 +6,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 @Entity
-@Table(name = "multiple_choice_question")
+@Table(name = "multiple_choice_questions")
 @Data
-public class MultipleChoiceQuestion {
+public class MultipleChoiceQuestions {
     @Id
     @Column(name = "id_multiple_question")
     private Long idMultipleQuestion;

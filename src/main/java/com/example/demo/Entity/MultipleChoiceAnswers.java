@@ -1,19 +1,18 @@
 package com.example.demo.Entity;
 
-
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.List;
-
-
 @Entity
-@Table(name = "reading_answer")
+@Table(name = "multiple_choice_answers")
 @Data
-public class ReadingAnswer {
+public class MultipleChoiceAnswers {
     @Id
     @Column(name = "id_answer")
     private Long idAnswer;
+
+    @Column(name = "id_question")
+    private Long idQuestion;
 
     @Column(name = "option_a")
     private String optionA;
@@ -30,22 +29,16 @@ public class ReadingAnswer {
     @Column(name = "answer_correct")
     private String answerCorrect;
 
-    @Column(name = "id_reading_content")
-    private Long idReadingContent;
-
     @Column(name = "answer_description")
     private String answerDescription;
 
-    @Column(name = "question")
-    private String question;
-    @Column(name ="id_quiz")
-    private int id_quiz;
+    @Column(name = "id_quiz")
+    private Long idQuiz;
     @ManyToOne
     @JoinColumn(name = "id_quiz",insertable = false,updatable = false)
     private Quiz quiz;
-
-    @ManyToOne
-    @JoinColumn(name = "id_reading_content",insertable = false,updatable = false)
-    private ReadingContent readingContent;
+    @OneToOne
+    @JoinColumn(name = "id_question",insertable = false,updatable = false)
+    private MultipleChoiceQuestions question;
 
 }

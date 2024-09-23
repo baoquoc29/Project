@@ -1,8 +1,5 @@
 package com.example.demo.DTO;
 
-import com.example.demo.Entity.Account;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import lombok.Data;
 
 @Data
