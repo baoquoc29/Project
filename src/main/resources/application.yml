@@ -1,0 +1,19 @@
+server:
+  port: 9111
+  servlet:
+    context-path: /dev
+
+spring:
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: update
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/EnglishApp
+    username: postgres
+    password: 2903
+
