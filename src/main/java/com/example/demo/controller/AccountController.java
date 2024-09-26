@@ -4,7 +4,6 @@ import com.example.demo.dto.*;
 import com.example.demo.emailconfig.Email;
 import com.example.demo.emailconfig.EmailService;
 import com.example.demo.formatresponse.ApiResponse;
-import com.example.demo.formatresponse.ResponObject;
 import com.example.demo.service.accountservice.AccountService;
 import com.example.demo.service.customerservice.CustomerServiceImpl;
 import org.modelmapper.ModelMapper;
@@ -15,8 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/api/v1/auth/accounts")

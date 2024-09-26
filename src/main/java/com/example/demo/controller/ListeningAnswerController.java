@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.ListeningAnswersDTO;
-import com.example.demo.formatresponse.ResponObject;
+import com.example.demo.formatresponse.ApiResponse;
 import com.example.demo.service.listeningservice.ListeningAnswerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,18 +18,23 @@ public class ListeningAnswerController {
     private ListeningAnswerService listeningAnswerService;
 
     @GetMapping("/id_quiz/{id_quiz}")
-    public ResponseEntity<ResponObject> getAllListeningAnswers(@PathVariable("id_quiz") Long idQuiz) {
+    public ResponseEntity<ApiResponse> getAllListeningAnswers(@PathVariable("id_quiz") Long idQuiz) {
         List<ListeningAnswersDTO> answers = listeningAnswerService.getAllListeningAnswers(idQuiz);
-        return ResponseEntity.ok(new ResponObject("True", "Success", answers));
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setCode(HttpStatus.OK.value());
+        apiResponse.setMessage("Listening");
+        apiResponse.setData(answers);
+        return ResponseEntity.ok(apiResponse);
     }
 
     @GetMapping("/id/{id_quiz}/part/{part}")
-    public ResponseEntity<ResponObject> getListeningAnswer(@PathVariable("id_quiz") Long idQuiz, @PathVariable("part") String part) {
+    public ResponseEntity<ApiResponse> getListeningAnswer(@PathVariable("id_quiz") Long idQuiz, @PathVariable("part") String part) {
         List<ListeningAnswersDTO> answersDTOS = listeningAnswerService.getAnyPartListeningAnswers(idQuiz, part);
-        if (answersDTOS.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponObject("False", "Data not found", "Data is not found!"));
-        }
-        return ResponseEntity.ok(new ResponObject("True", "Success", answersDTOS));
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setCode(HttpStatus.OK.value());
+        apiResponse.setMessage("Listening " + part );
+        apiResponse.setData(answersDTOS);
+        return ResponseEntity.ok(apiResponse);
     }
 
 }

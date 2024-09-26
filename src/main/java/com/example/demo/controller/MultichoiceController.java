@@ -2,9 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.MultipleChoiceAnswerDTO;
 import com.example.demo.formatresponse.ApiResponse;
-import com.example.demo.formatresponse.ResponObject;
 import com.example.demo.service.multichoiceservice.MultichoiceService;
-import com.example.demo.service.multichoiceservice.MultichoiceServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
