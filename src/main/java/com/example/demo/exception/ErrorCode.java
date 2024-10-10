@@ -11,7 +11,8 @@ public enum ErrorCode {
     NOT_FOUND_TOPIC(409,"Not found topic"),
     NOT_FOUND_PART(409,"Not found part"),
     NOT_NULL(409,"Not null"),
-    INVALID_EMAIL(409,"Email is invalid");
+    INVALID_EMAIL(409,"Email is invalid"),
+    INVALID_TYPE(409,"Invalid Type");
     private int code;
     private String message;
     ErrorCode(int code, String message) {

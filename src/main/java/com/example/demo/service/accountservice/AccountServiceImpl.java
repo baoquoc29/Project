@@ -14,14 +14,13 @@ import com.example.demo.repository.ListeningRepository;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static java.util.Arrays.stream;
 
@@ -42,11 +41,26 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public UserDTO signUp(UserDTO userDTO) {
-
-        if (userDTO.getUsername() == null || userDTO.getNumberphone() == null || userDTO.getEmail() == null || userDTO.getPassword() == null || userDTO.getAge() == null) {
-            throw new IllegalArgumentException("Thông tin không đầy đủ");
+        // Kiểm tra thông tin không được để trống
+        if (userDTO.getUsername() == null || userDTO.getUsername().trim().isEmpty()) {
+            throw new IllegalArgumentException("Tên đăng nhập không được để trống.");
         }
-
+        if (userDTO.getNumberphone() == null || userDTO.getNumberphone().trim().isEmpty()) {
+            throw new IllegalArgumentException("Số điện thoại không được để trống.");
+        }
+        if (userDTO.getEmail() == null || userDTO.getEmail().trim().isEmpty()) {
+            throw new IllegalArgumentException("Email không được để trống.");
+        }
+        if (userDTO.getPassword() == null || userDTO.getPassword().trim().isEmpty()) {
+            throw new IllegalArgumentException("Mật khẩu không được để trống.");
+        }
+        if (userDTO.getAge() == null) {
+            throw new IllegalArgumentException("Tuổi không được để trống.");
+        }
+        if (userDTO.getName() == null) {
+            throw new IllegalArgumentException("Vui lòng không được để trống.");
+        }
+        // Kiểm tra tính duy nhất của email, tên đăng nhập và số điện thoại
         if (checkEmail(userDTO.getEmail())) {
             throw new IllegalArgumentException("Email đã tồn tại.");
         }
@@ -57,8 +71,10 @@ public class AccountServiceImpl implements AccountService {
             throw new IllegalArgumentException("Số điện thoại đã tồn tại.");
         }
 
+        // Mã hóa mật khẩu
         String encodedPassword = passwordEncoder.encode(userDTO.getPassword());
 
+        // Tạo đối tượng UserAccounts
         UserAccounts user = modelMapper.map(userDTO, UserAccounts.class);
         user.setPassword(encodedPassword);
         UserAccounts savedUserAccounts = userRepository.save(user);
@@ -76,9 +92,11 @@ public class AccountServiceImpl implements AccountService {
 
 
     @Override
-    public UserAccounts getAccount(String email) {
-        return null;
+    public List<UserResponDTO> listOfPage(Pageable pageable) {
+        List<UserResponDTO> list = userRepository.findAllByPage(pageable).getContent();
+        return list;
     }
+
 
     @Override
     public boolean checkEmail(String email) {
@@ -103,7 +121,9 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public UserResponDTO login(AccountDTO userDTO) {
-
+        if(userDTO.getUsername() == null || userDTO.getPassword() == null){
+            throw  new AppException(ErrorCode.NOT_NULL);
+        }
         UserAccounts user = userRepository.findAccountByUsername(userDTO.getUsername());
         if (user == null) {
             throw new AppException(ErrorCode.NOT_FOUND_CUSTOMER);
@@ -223,4 +243,23 @@ public class AccountServiceImpl implements AccountService {
     public void clearCheckDayOnline() {
         userRepository.clearCheckDayColumn(LocalDate.now().minusWeeks(1));
     }
+
+    @Override
+    public void deleteAccountById(Long id) {
+
+        Customers customer = customerRepository.findByIduser(id);
+
+        if (customer != null) {
+            customerRepository.delete(customer);
+        }
+
+        userRepository.deleteById(id);
+    }
+
+    @Override
+    public List<UserResponDTO> getAllUser() {
+        List<UserResponDTO> list = userRepository.getAllAccounts();
+        return list;
+    }
+
 }

@@ -2,13 +2,16 @@ package com.example.demo.service.accountservice;
 
 import com.example.demo.dto.*;
 import com.example.demo.entity.UserAccounts;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface AccountService {
     UserDTO signUp(UserDTO userDTO);
 
-    UserAccounts getAccount(String email);
+
+    List<UserResponDTO> listOfPage(Pageable pageable);
 
     boolean checkEmail(String email);
 
@@ -33,4 +36,8 @@ public interface AccountService {
     String getCheckDayOnline(String name);
 
     void clearCheckDayOnline();
+
+    void deleteAccountById(Long id);
+
+    List<UserResponDTO> getAllUser();
 }

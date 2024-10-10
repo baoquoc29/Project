@@ -8,13 +8,14 @@ import lombok.Data;
 @Table(name = "listening_answers")
 public class ListeningAnswers {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_answer")
     private Long idAnswer;
 
     @Column(name = "id_content")
     private Long idContent;
     @Column(name ="id_quiz")
-    private int id_quiz;
+    private Long idQuiz;
     @Column(name = "option_a")
     private String optionA;
 
@@ -32,6 +33,9 @@ public class ListeningAnswers {
 
     @Column(name = "question")
     private String question;
+
+    @Column(name = "description_answer")
+    private String descriptionAnswer;
     @ManyToOne
     @JoinColumn(name = "id_content", insertable = false, updatable = false)
     private ListeningQuestions listeningQuestions;

@@ -25,26 +25,33 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Transactional
-    public CustomerDTO update(CustomerDTO customerDTO) {
-        if (!isValidPhoneNumber(customerDTO.getNumberphone())) {
+    public CustomerDTO update(Long idCustomer, CustomerDTO customerDTO) {
+        // Kiểm tra số điện thoại hợp lệ nếu nó không null
+        if (customerDTO.getNumberphone() != null && !isValidPhoneNumber(customerDTO.getNumberphone())) {
             throw new AppException(ErrorCode.INVALID_PHONE);
         }
 
-        Customers existingCustomers = customerRepository.findCustomerByNumberphone(customerDTO.getNumberphone());
-
-        if (existingCustomers == null) {
-            Customers customerToUpdate = customerRepository.findByIdcustomer(customerDTO.getIdcustomer());
-            if (customerToUpdate == null) {
-                throw new AppException(ErrorCode.NOT_FOUND_CUSTOMER);
-            }
-            modelMapper.map(customerDTO, customerToUpdate);
-            Customers updatedCustomers = customerRepository.save(customerToUpdate);
-            return modelMapper.map(updatedCustomers, CustomerDTO.class);
-        } else {
-
-            throw new AppException(ErrorCode.DATA_EXISTS);
+        Customers customerToUpdate = customerRepository.findByIdcustomer(idCustomer);
+        if (customerToUpdate == null) {
+            throw new AppException(ErrorCode.NOT_FOUND_CUSTOMER);
         }
+
+        if (customerDTO.getNumberphone() != null) {
+            Customers existingCustomer = customerRepository.findCustomerByNumberphone(customerDTO.getNumberphone());
+            if (existingCustomer != null && !existingCustomer.getIdcustomer().equals(idCustomer)) {
+                throw new AppException(ErrorCode.DATA_EXISTS);
+            }
+        }
+
+        modelMapper.getConfiguration().setSkipNullEnabled(true);
+        modelMapper.map(customerDTO, customerToUpdate);
+
+        Customers updatedCustomers = customerRepository.save(customerToUpdate);
+
+        return modelMapper.map(updatedCustomers, CustomerDTO.class);
     }
+
+
 
     private boolean isValidPhoneNumber(String numberPhone) {
         return numberPhone != null && numberPhone.matches("\\d{10}");

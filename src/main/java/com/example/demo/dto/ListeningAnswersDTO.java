@@ -18,7 +18,8 @@ public class ListeningAnswersDTO {
     private String partListening;
     private Long idQuiz;
     private String title;
-    public ListeningAnswersDTO(Long idAnswer, Long idContent,Long idQuiz,String title, String optionA, String optionB, String optionC, String optionD, String answerCorrect, String question, String image, String audio, String partListening) {
+    private String descriptionAnswer;
+    public ListeningAnswersDTO(Long idAnswer, Long idContent,Long idQuiz,String title, String optionA, String optionB, String optionC, String optionD, String answerCorrect, String question, String image, String audio, String partListening,String descriptionAnswer) {
         this.idAnswer = idAnswer;
         this.idContent = idContent;
         this.optionA = optionA;
@@ -32,6 +33,10 @@ public class ListeningAnswersDTO {
         this.partListening = partListening;
         this.idQuiz = idQuiz;
         this.title = title;
+        this.descriptionAnswer = descriptionAnswer;
 
+    }
+
+    public ListeningAnswersDTO() {
     }
 }

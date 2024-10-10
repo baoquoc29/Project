@@ -8,6 +8,7 @@ import com.example.demo.service.accountservice.AccountService;
 import com.example.demo.service.customerservice.CustomerServiceImpl;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +38,7 @@ public class AccountController {
         apiResponse.setData(responDTO);
         apiResponse.setCode(HttpStatus.CREATED.value());
         apiResponse.setMessage("Success");
-        return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
+        return ResponseEntity.ok(apiResponse);
     }
 
     @PostMapping("/login")
@@ -48,7 +49,7 @@ public class AccountController {
         apiResponse.setData(responDTO);
         apiResponse.setCode(HttpStatus.OK.value());
         apiResponse.setMessage("Success");
-        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+        return ResponseEntity.ok(apiResponse);
     }
 
     @PostMapping("/forgot")
@@ -74,6 +75,16 @@ public class AccountController {
         return ResponseEntity.ok(apiResponse);
     }
 
+    @GetMapping()
+    public ResponseEntity<ApiResponse> getAllUser() {
+        List<UserResponDTO> list = accountService.getAllUser();
+        ApiResponse<List<UserResponDTO>> apiResponse = new ApiResponse<>();
+        apiResponse.setMessage("Success");
+        apiResponse.setCode(HttpStatus.OK.value());
+        apiResponse.setData(list);
+        return ResponseEntity.ok(apiResponse);
+    }
+
     @GetMapping("/get_user/email/{email}")
     public ResponseEntity<ApiResponse> getInformationUserByEmail(@PathVariable("email") String email) {
         UserDTODisplay data = accountService.getUserByEmailHidePassword(email);
@@ -88,9 +99,8 @@ public class AccountController {
     @PutMapping("/update/customer/id/{id_customer}")
     public ResponseEntity<ApiResponse> updateCustomer(@PathVariable("id_customer") Long id, @RequestBody CustomerDTO customerDTO) {
         CustomerDTO existingCustomerDTO = customerService.findOne(id);
-        modelMapper.getConfiguration().setSkipNullEnabled(true);
         modelMapper.map(customerDTO, existingCustomerDTO);
-        CustomerDTO updatedCustomerDTO = customerService.update(existingCustomerDTO);
+        CustomerDTO updatedCustomerDTO = customerService.update(id,existingCustomerDTO);
         ApiResponse<CustomerDTO> apiResponse = new ApiResponse<>();
         apiResponse.setData(updatedCustomerDTO);
         apiResponse.setCode(HttpStatus.OK.value());
@@ -154,4 +164,23 @@ public class AccountController {
         return ResponseEntity.ok(apiResponse);
 
     }
-}
+    @GetMapping("/get_all")
+    public ResponseEntity<ApiResponse> getAllUser(@RequestParam(defaultValue = "0") int size , @RequestParam(defaultValue = "5") int page) {
+        List<UserResponDTO> list = accountService.listOfPage(PageRequest.of(page,size));
+        ApiResponse<List<UserResponDTO>> apiResponse = new ApiResponse<>();
+        apiResponse.setMessage("Success");
+        apiResponse.setCode(HttpStatus.OK.value());
+        apiResponse.setData(list);
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @DeleteMapping("/id/{id}")
+    public ResponseEntity<ApiResponse> deleteAccountById(@PathVariable Long id) {
+            accountService.deleteAccountById(id);
+            ApiResponse apiResponse = new ApiResponse();
+            apiResponse.setMessage("Success");
+            apiResponse.setCode(HttpStatus.OK.value());
+            return ResponseEntity.ok(apiResponse);
+        }
+    }
+

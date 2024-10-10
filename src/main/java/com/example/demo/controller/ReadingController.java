@@ -6,10 +6,7 @@ import com.example.demo.service.readingservice.ReadingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,6 +28,26 @@ public class ReadingController {
         apiResponse.setData(answersDTOS);
         apiResponse.setCode(HttpStatus.OK.value());
         apiResponse.setMessage("Reading " + part);
+        return ResponseEntity.ok(apiResponse);
+    }
+    @GetMapping("/reading/idQuestion/{id_question}")
+    public ResponseEntity<ApiResponse> getReadingAnswerById(
+            @PathVariable("id_question") Long idQuestion) {
+        ReadingAnswerDTO answersDTOS = readingService.getReadingAnswerById(idQuestion);
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setData(answersDTOS);
+        apiResponse.setCode(HttpStatus.OK.value());
+        apiResponse.setMessage("Reading ");
+        return ResponseEntity.ok(apiResponse);
+    }
+    @PutMapping("/reading/updated/idQuestion/{id_question}")
+    public ResponseEntity<ApiResponse> updateReadingAnswerById(
+            @PathVariable("id_question") Long idQuestion,@RequestBody ReadingAnswerDTO readingAnswerDTO) {
+        ReadingAnswerDTO answersDTOS = readingService.updateReadingAnswer(idQuestion,readingAnswerDTO);
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setData(answersDTOS);
+        apiResponse.setCode(HttpStatus.OK.value());
+        apiResponse.setMessage("Reading ");
         return ResponseEntity.ok(apiResponse);
     }
 

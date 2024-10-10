@@ -6,10 +6,7 @@ import com.example.demo.service.multichoiceservice.MultichoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -36,6 +33,24 @@ public class MultichoiceController {
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setCode(HttpStatus.OK.value());
         apiResponse.setData(list);
+        apiResponse.setMessage("Part 5 ");
+        return ResponseEntity.ok(apiResponse);
+    }
+    @GetMapping("/get/idQuestion/{id_question}")
+    public ResponseEntity<ApiResponse> get(@PathVariable("id_question") Long id_question) {
+        MultipleChoiceAnswerDTO updated = multichoiceService.getMultipleChoice(id_question);
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setCode(HttpStatus.OK.value());
+        apiResponse.setData(updated);
+        apiResponse.setMessage("Part 5 ");
+        return ResponseEntity.ok(apiResponse);
+    }
+    @PutMapping("/updated/idQuestion/{id_question}")
+    public ResponseEntity<ApiResponse> updated(@PathVariable("id_question") Long id_question , @RequestBody MultipleChoiceAnswerDTO multipleChoiceAnswerDTO) {
+        MultipleChoiceAnswerDTO updated = multichoiceService.updateMultipleChoice(id_question,multipleChoiceAnswerDTO);
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setCode(HttpStatus.OK.value());
+        apiResponse.setData(updated);
         apiResponse.setMessage("Part 5 ");
         return ResponseEntity.ok(apiResponse);
     }

@@ -14,4 +14,8 @@ public interface MultipleChoiceRepository extends JpaRepository<MultipleChoiceAn
 
     @Query("Select new com.example.demo.dto.MultipleChoiceAnswerDTO(ma.idAnswer,q.idQuiz,mq.idMultipleQuestion,mq.content,q.title,ma.optionA,ma.optionB,ma.optionC,ma.optionD,ma.answerCorrect,ma.answerDescription,mq.part) from MultipleChoiceAnswers ma join ma.question mq join ma.quiz q WHERE q.idQuiz = :id_quiz ")
     List<MultipleChoiceAnswerDTO> findMultipleChoiceAnswerByQuiz(@Param("id_quiz") Long id_quiz);
+
+
+    @Query("Select new com.example.demo.dto.MultipleChoiceAnswerDTO(ma.idAnswer,q.idQuiz,mq.idMultipleQuestion,mq.content,q.title,ma.optionA,ma.optionB,ma.optionC,ma.optionD,ma.answerCorrect,ma.answerDescription,mq.part ) from MultipleChoiceAnswers ma join ma.question mq join ma.quiz q WHERE   ma.idAnswer =:id")
+   MultipleChoiceAnswerDTO findMultipleChoiceAnswerByQuizAndIdAnswer(@Param("id") Long id);
 }

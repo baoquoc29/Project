@@ -31,4 +31,7 @@ public class MultipleChoiceAnswerDTO {
         this.part = part;
 
     }
+
+    public MultipleChoiceAnswerDTO() {
+    }
 }

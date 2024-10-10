@@ -17,6 +17,10 @@ public class UserScoreDisplayDTO {
     private LocalDate dateFinish;
     private Long totalListening;
     private Long totalReading;
+    private double avgPoints;
+    private int month;
+    private int year;
+    private Long count;
     public UserScoreDisplayDTO(Long idCustomer,Long idScore,String username,Long idQuiz,String title,int score,Long totalListening,Long totalReading,String timeFinish,LocalDate dateFinish) {
         this.idScore = idScore;
         this.username = username;
@@ -34,5 +38,12 @@ public class UserScoreDisplayDTO {
     }
     public UserScoreDisplayDTO(int score) {
         this.score = score;
+    }
+    public UserScoreDisplayDTO(Long idQuiz,double avgPoints,Long count,int month,int year) {
+        this.avgPoints = avgPoints;
+        this.idQuiz = idQuiz;
+        this.month = month;
+        this.year = year;
+        this.count =count;
     }
 }

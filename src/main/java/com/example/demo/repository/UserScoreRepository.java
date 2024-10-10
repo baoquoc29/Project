@@ -10,10 +10,20 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface UserScoreRepository extends JpaRepository<Userscore,Long> {
-    @Query("SELECT new com.example.demo.dto.UserScoreDisplayDTO(uc.idCustomer,uc.idScore,rc.name,q.idQuiz,q.title,uc.score,uc.totalListening,uc.totalReading,uc.timeFinish,uc.dateFinish) " +
+    @Query("SELECT new com.example.demo.dto.UserScoreDisplayDTO(q.idQuiz, avg(uc.score),count(uc.idQuiz), MONTH(uc.dateFinish),YEAR(uc.dateFinish)) " +
             "FROM Userscore uc " +
-            "JOIN uc.customers rc JOIN uc.quiz q ")
+            "JOIN uc.customers rc JOIN uc.quiz q " +
+            "GROUP BY q.idQuiz, MONTH(uc.dateFinish), YEAR(uc.dateFinish)")
     List<UserScoreDisplayDTO> findAllSubmitTest();
+
+//    @Query("SELECT new com.example.demo.dto.UserScoreDisplayDTO(q.idQuiz, COUNT(uc.idQuiz), MONTH(uc.dateFinish), YEAR(uc.dateFinish)) " +
+//            "FROM Userscore uc " +
+//            "JOIN uc.customers rc JOIN uc.quiz q " +
+//            "GROUP BY q.idQuiz, MONTH(uc.dateFinish), YEAR(uc.dateFinish)")
+//    List<UserScoreDisplayDTO> findCountSubmitTest();
+//
+
+
     @Query("SELECT new com.example.demo.dto.UserScoreDisplayDTO(uc.idCustomer,uc.idScore,rc.name,q.idQuiz,q.title,uc.score,uc.totalListening,uc.totalReading,uc.timeFinish,uc.dateFinish) " +
             "FROM Userscore uc " +
             "JOIN uc.customers rc JOIN uc.quiz q WHERE  uc.idCustomer = :id ")

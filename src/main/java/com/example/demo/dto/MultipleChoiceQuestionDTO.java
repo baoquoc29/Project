@@ -1,22 +1,16 @@
 package com.example.demo.dto;
 
+import lombok.Data;
+
+@Data
 public class MultipleChoiceQuestionDTO {
     private Long idMultipleQuestion;
     private String content;
 
-    public Long getIdMultipleQuestion() {
-        return this.idMultipleQuestion;
-    }
-
-    public void setIdMultipleQuestion(Long idMultipleQuestion) {
-        this.idMultipleQuestion = idMultipleQuestion;
-    }
-
-    public String getContent() {
-        return this.content;
-    }
-
-    public void setContent(String content) {
+    public MultipleChoiceQuestionDTO(String content, String part) {
         this.content = content;
+        this.part = part;
     }
+
+    private String part;
 }

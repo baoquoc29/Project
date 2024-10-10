@@ -1,5 +1,6 @@
 package com.example.demo.service.userscoreservice;
 
+import com.example.demo.dto.TotalAverageDTO;
 import com.example.demo.dto.UserScoreDisplayDTO;
 import com.example.demo.dto.UserscoreDTO;
 import com.example.demo.entity.Quiz;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserScoreServiceImpl implements UserScoreService {
@@ -75,5 +77,12 @@ public class UserScoreServiceImpl implements UserScoreService {
             throw  new AppException(ErrorCode.NOT_FOUND_CUSTOMER);
         }
         return userScoreRepository.getListHistoryExam(idCustomer, pageable);
+    }
+
+    @Override
+    public List<TotalAverageDTO> getListAverage() {
+        List<UserScoreDisplayDTO> list = userScoreRepository.findAllSubmitTest();
+
+        return list.stream().map(listAll-> modelMapper.map(listAll,TotalAverageDTO.class)).collect(Collectors.toList());
     }
 }

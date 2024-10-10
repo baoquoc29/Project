@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.TotalAverageDTO;
 import com.example.demo.dto.UserScoreDisplayDTO;
 import com.example.demo.dto.UserscoreDTO;
 import com.example.demo.formatresponse.ApiResponse;
@@ -72,5 +73,13 @@ public class UserScoreController {
         apiResponse.setCode(HttpStatus.OK.value());
         return ResponseEntity.ok(apiResponse);
     }
-
+    @GetMapping()
+    public ResponseEntity<ApiResponse> getExam() {
+        List<TotalAverageDTO> responDto = userScoreService.getListAverage();
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setMessage("Success");
+        apiResponse.setData(responDto);
+        apiResponse.setCode(HttpStatus.OK.value());
+        return ResponseEntity.ok(apiResponse);
+    }
 }

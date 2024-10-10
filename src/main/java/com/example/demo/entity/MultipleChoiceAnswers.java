@@ -8,6 +8,7 @@ import lombok.Data;
 @Data
 public class MultipleChoiceAnswers {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_answer")
     private Long idAnswer;
 

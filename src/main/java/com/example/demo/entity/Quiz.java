@@ -1,9 +1,6 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Date;
@@ -13,6 +10,8 @@ import java.util.Date;
 @Data
 public class Quiz {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "quiz_seq")
+    @SequenceGenerator(name = "quiz_seq", sequenceName = "quiz_id_quiz_seq", allocationSize = 1)
     @Column(name = "id_quiz")
     private Long idQuiz;
 

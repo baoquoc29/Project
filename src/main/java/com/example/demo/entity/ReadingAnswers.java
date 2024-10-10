@@ -10,6 +10,7 @@ import lombok.Data;
 @Data
 public class ReadingAnswers {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_answer")
     private Long idAnswer;
 
@@ -37,7 +38,7 @@ public class ReadingAnswers {
     @Column(name = "question")
     private String question;
     @Column(name ="id_quiz")
-    private int id_quiz;
+    private Long idQuiz;
     @ManyToOne
     @JoinColumn(name = "id_quiz",insertable = false,updatable = false)
     private Quiz quiz;
